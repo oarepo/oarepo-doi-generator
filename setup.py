@@ -6,7 +6,7 @@ from setuptools import setup
 
 readme = open('README.md').read()
 history = open('CHANGES.md').read()
-OAREPO_VERSION = os.environ.get('OAREPO_VERSION', '3.3.0')
+OAREPO_VERSION = os.environ.get('OAREPO_VERSION', '3.3.40')
 
 
 install_requires = [
@@ -14,7 +14,6 @@ install_requires = [
     'oarepo-records-draft',
     'oarepo-communities',
     'oarepo-invenio-model',
-    'flask_sitemap',
 ]
 
 tests_require = [
@@ -23,8 +22,15 @@ tests_require = [
     'oarepo-validate',
     'coverage',
     'oarepo-mapping-includes',
-    'werkzeug==1.0.1',
-    'flask==1.1.4'
+    # 'werkzeug==1.0.1',
+    # 'flask==1.1.4',
+    'werkzeug',
+    'flask',
+    'invenio-app==1.2.7',
+    'celery==5.0.5',
+    # 'flask-sqlalchemy==2.4.4',
+    # 'invenio-search==1.3.1'
+    'sqlalchemy==1.3.24'
 ]
 
 extras_require = {
