@@ -20,7 +20,8 @@ tests_require = [
     'responses',
     'oarepo-invenio-model',
     'oarepo_mapping_includes',
-    'oarepo_validate'
+    'oarepo_validate',
+    'oarepo_communities'
 
 ]
 
