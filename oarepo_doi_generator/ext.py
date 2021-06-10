@@ -1,6 +1,3 @@
-from oarepo_communities.converters import CommunityPIDValue
-from oarepo_records_draft import current_drafts
-
 
 class OARepoDOIGenerator(object):
     def __init__(self, app=None):

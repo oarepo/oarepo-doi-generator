@@ -1,12 +1,10 @@
-import requests
 import responses
 from sample.record import SampleRecord
 
 from oarepo_doi_generator.api import doi_approved, doi_request
 
 
-def test_doi_request(app, db, client):
-    #todo test article
+def test_doi_request(app, db):
     record = SampleRecord.create({ "id": "1234","title": "Fir", "_primary_community": "cesnet", "identifiers": [
     {
       "identifier": "123456",
@@ -14,19 +12,7 @@ def test_doi_request(app, db, client):
     }
   ]
                                    })
-    # body = {
-    #     'data': {
-    #         'id': '1234', 'type': 'drecid', 'attributes':
-    #             {'event': 'publish',
-    #              'prefix': '12345',
-    #              'creators': [{'name': 'Various authors'}],
-    #              'titles': 'Fir',
-    #              'types': {'resourceTypeGeneral': 'Dataset'},
-    #              'url': 'https://repozitar-test.cesnet.cz/cesnet/datasets/dat-7w607-k0s56',
-    #              'schemaVersion': 'http://datacite.org/schema/kernel-4', 'publisher': "CESNET"
-    #              }
-    #     }
-    # }
+
     rec= doi_request(record=record)
     assert rec == {
         'id': '1234', 'title': 'Fir',
@@ -53,12 +39,21 @@ def test_doi_request(app, db, client):
         'identifiers': [
             {'identifier': '', 'scheme': 'doi', 'status': 'requested'}]
         , '$schema': 'https://localhost:5000/schemas/sample/sample-v1.0.0.json'}
-    #rec = doi_approved(record=record, pid_type="neco", test_mode=True)
-
-    # with responses.RequestsMock() as rsps:
-    #     rsps.add(responses.POST ,'https://api.test.datacite.org/dois',
-    #              body=body, status=201,
-    #              content_type='application/vnd.api+json')
 
 
+def test_doi_registration(app, db):
+    record = SampleRecord.create({
+        'id': '1234', 'title': 'Fir',
+        '_primary_community': 'cesnet',
+        'identifiers': [
+            {'identifier': '', 'scheme': 'doi', 'status': 'requested'}]
+        , '$schema': 'https://localhost:5000/schemas/sample/sample-v1.0.0.json'})
+
+    mock_response = b'{"data": {"id": "10.23644/ydc3-1692"}}'
+    with responses.RequestsMock() as rsps:
+        rsps.add(responses.POST ,'https://api.test.datacite.org/dois',
+                 body=mock_response, status=201,
+                 content_type='application/vnd.api+json')
+        resp = doi_approved(record=record, pid_type="neco", test_mode=True)
+        assert resp == {'id': '1234', 'title': 'Fir', '_primary_community': 'cesnet', 'identifiers': [{'identifier': '10.23644/ydc3-1692', 'scheme': 'doi'}], '$schema': 'https://localhost:5000/schemas/sample/sample-v1.0.0.json'}
 

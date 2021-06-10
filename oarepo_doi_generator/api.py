@@ -72,6 +72,8 @@ def doi_approved(record, pid_type, test_mode = False):
 
             db.session.commit()
 
+    return record
+
 
 def doi_registration(data, test_mode = False):
     username = current_app.config.get("DOI_DATACITE_USERNAME")
