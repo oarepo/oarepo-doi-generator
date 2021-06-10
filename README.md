@@ -13,6 +13,35 @@ Instalation
 
 Usage
 ----------
+OARepo module for DataCite DOI registration. 
+
+Functions
+---------
+###### doi_request(record)
+ Creates a new identifier in record metadata with empty ```value```, ```scheme``` as ```doi``` and with ```status``` set as ```requested```.
+###### doi_approved(record, pid_type, test_mode = False)
+ For DOI registration. A new DOI is registered on DataCite and attached to record metadata as a new identifier.
+If test_mode sets on True, the registration is performed only on DataCite testing server.
+
+Configuration
+-------------
+#### must be present in config:
+###### DOI_DATACITE_USERNAME
+ Repository account credentials for DataCite in the format "xxx.yyy"
+###### DOI_DATACITE_PASSWORD
+ Password for DataCite
+###### DOI_DATACITE_PREFIX
+ Registered DOI prefix
+
+
+#### optional:
+###### DOI_DATACITE_PUBLISHER
+ For metadata that are generated for record and associated with registered DOI.
+  If publisher is specified in record metadata, this variable is not used.
+  Default value: CESNET
+###### DOI_DATACITE_TEST_URL
+ Only for test purposes.
+  URL that is allowed in the domains settings of the test repository.
 
  [image]: https://img.shields.io/travis/oarepo/oarepo-doi-genrator.svg
   [1]: https://travis-ci.com/github/oarepo/oarepo-doi-genrator
