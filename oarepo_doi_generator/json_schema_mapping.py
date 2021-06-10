@@ -13,15 +13,13 @@ def try_name(nlist,record, default=None):
 
 def schema_mapping(record, pid_type, test_mode = False):
 
-    print(current_app.config)  # for prefix and credentials
     prefix = current_app.config.get("DOI_DATACITE_PREFIX")
     url = record.canonical_url
     for_test_array = url.split('/')
 
-    test_url_prefix = current_app.config.get("DOI_DATACITE_TEST_URL") #todo from config
+    test_url_prefix = current_app.config.get("DOI_DATACITE_TEST_URL")
     test_url = test_url_prefix + for_test_array[-3] + '/' + for_test_array[-2] + '/' + for_test_array[-1]
 
-    print(test_url)
     id_data = {}
     id = record['id']
     always_merger.merge(id_data, {"id": id})
@@ -32,7 +30,7 @@ def schema_mapping(record, pid_type, test_mode = False):
 
     #creators
     creators = try_name(nlist = ['creators', 'authors', 'contributors'], record =record)
-    if creators == None:
+    if creators is None:
         always_merger.merge(attributes, {"creators": [{"name" : "Various authors"}]})
     else:
         creators_data = []
@@ -44,7 +42,7 @@ def schema_mapping(record, pid_type, test_mode = False):
             else:
                 creator_data = {"name": 'unknown'}
             creators_data.append(creator_data)
-    always_merger.merge(attributes, {'creators': creators_data})
+        always_merger.merge(attributes, {'creators': creators_data})
 
     #title
     titles = try_name(nlist=['titles', 'title'], record=record)
@@ -63,7 +61,9 @@ def schema_mapping(record, pid_type, test_mode = False):
 
     #types
     datatype = try_name(nlist = ['document_type', 'resource_type' ], record =record)
-    if type(datatype) is str:
+    if datatype == None:
+        new_type = "Dataset"  # defaul value
+    elif type(datatype) is str:
         new_type = datatype_mapping(datatype)
     elif "type" in datatype:
         type_array = datatype["type"]
@@ -71,8 +71,6 @@ def schema_mapping(record, pid_type, test_mode = False):
             if "title" in t:
                 new_type = datatype_mapping(t["title"]["en"])
                 break
-    else:
-        new_type = "Dataset" #defaul value
     always_merger.merge(attributes, {"types": {"resourceTypeGeneral": new_type}})
 
     #url
@@ -83,10 +81,10 @@ def schema_mapping(record, pid_type, test_mode = False):
 
     #schemaVersion
     always_merger.merge(attributes, {"schemaVersion": "http://datacite.org/schema/kernel-4"})
-    print("publisher from config", current_app.config.get("DOI_DATACITE_PUBLISHER"))
     #publisher
     publisher  = try_name(nlist=['publisher'], record=record)
-    if publisher != None and publisher and (type(publisher) is str):
+
+    if publisher != None and (type(publisher) is str):
         always_merger.merge(attributes, {"publisher": publisher})
     else:
         always_merger.merge(attributes, {"publisher": current_app.config.get("DOI_DATACITE_PUBLISHER")}) #default: CESNET
@@ -110,11 +108,7 @@ def datatype_mapping(type):
                  ]
     type_in_singular = type[:-1]
     for datatype in datatypes:
-        print(type.upper())
-        print(datatype.upper())
-        print(type_in_singular.upper())
         if type.upper() == datatype.upper() or type_in_singular.upper() == datatype.upper():
-            print("hit")
             return(datatype)
 
     return "Dataset" #default value

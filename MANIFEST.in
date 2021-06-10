@@ -24,4 +24,3 @@ recursive-include sample *.json
 recursive-include sample *.py
 recursive-include tests *.db
 
-

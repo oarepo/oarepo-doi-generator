@@ -149,15 +149,5 @@ OAISERVER_ID_PREFIX = 'oai:my-site.com:'
 
 #: Switches off incept of redirects by Flask-DebugToolbar.
 DEBUG_TB_INTERCEPT_REDIRECTS = False
-OAREPO_COMMUNITIES_ENDPOINTS = [
-    'recid',
-    'drecid',
-]
-"""List of community enabled endpoints."""
 
-OAREPO_FSM_ENABLED_REST_ENDPOINTS = [
-    'recid',
-    'drecid',
-]
-OAREPO_COMMUNITIES_ROLES = ['member', 'curator', 'publisher']
 RECORDS_REST_ENDPOINTS = {}

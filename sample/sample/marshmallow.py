@@ -1,11 +1,34 @@
-from marshmallow import INCLUDE, Schema, fields, validate
-from oarepo_communities.marshmallow import OARepoCommunitiesMixin
+from marshmallow import fields, validate, Schema, EXCLUDE
+from marshmallow_utils.fields import SanitizedUnicode
 from oarepo_invenio_model.marshmallow import InvenioRecordMetadataSchemaV1Mixin
+from marshmallow.fields import List
+class IdentifierSchema(Schema):
+    """Identifier schema."""
 
-
-class SampleSchemaV1(InvenioRecordMetadataSchemaV1Mixin,
-                              OARepoCommunitiesMixin,):
-    title = fields.String( required=True)
-    state = fields.String( required=True)
     class Meta:
-        unknown = INCLUDE
+        """Meta attributes for the schema."""
+
+        unknown = EXCLUDE
+
+    material = fields.Str()
+    scheme = fields.Str()
+    value = fields.Str()
+    status = fields.Str()
+
+class PersonOrOrganizationSchema(Schema):
+    """Person or Organization schema."""
+
+    type = SanitizedUnicode()
+    name = SanitizedUnicode()
+class ContributorSchema(Schema):
+    """Contributor schema."""
+    person_or_org = fields.Nested(PersonOrOrganizationSchema)
+
+class SampleSchemaV1(InvenioRecordMetadataSchemaV1Mixin):
+    title = fields.String(validate=validate.Length(min=2), required=True)
+    creators = List(fields.Nested(ContributorSchema))
+    publication_year = fields.String()
+    document_type = fields.String()
+    _primary_community = fields.String()
+    identifiers = fields.List(fields.Nested(IdentifierSchema))
+
