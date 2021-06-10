@@ -18,7 +18,7 @@ def schema_mapping(record, pid_type, test_mode = False):
     url = record.canonical_url
     for_test_array = url.split('/')
 
-    test_url_prefix = current_app.config.get("DOI_DATACITE_TEST_URL") #todo from config
+    test_url_prefix = current_app.config.get("DOI_DATACITE_TEST_URL")
     test_url = test_url_prefix + for_test_array[-3] + '/' + for_test_array[-2] + '/' + for_test_array[-1]
 
     print(test_url)
@@ -32,7 +32,7 @@ def schema_mapping(record, pid_type, test_mode = False):
 
     #creators
     creators = try_name(nlist = ['creators', 'authors', 'contributors'], record =record)
-    if creators == None:
+    if creators is None:
         always_merger.merge(attributes, {"creators": [{"name" : "Various authors"}]})
     else:
         creators_data = []
@@ -44,7 +44,7 @@ def schema_mapping(record, pid_type, test_mode = False):
             else:
                 creator_data = {"name": 'unknown'}
             creators_data.append(creator_data)
-    always_merger.merge(attributes, {'creators': creators_data})
+        always_merger.merge(attributes, {'creators': creators_data})
 
     #title
     titles = try_name(nlist=['titles', 'title'], record=record)
@@ -63,7 +63,9 @@ def schema_mapping(record, pid_type, test_mode = False):
 
     #types
     datatype = try_name(nlist = ['document_type', 'resource_type' ], record =record)
-    if type(datatype) is str:
+    if datatype == None:
+        new_type = "Dataset"  # defaul value
+    elif type(datatype) is str:
         new_type = datatype_mapping(datatype)
     elif "type" in datatype:
         type_array = datatype["type"]
@@ -71,8 +73,6 @@ def schema_mapping(record, pid_type, test_mode = False):
             if "title" in t:
                 new_type = datatype_mapping(t["title"]["en"])
                 break
-    else:
-        new_type = "Dataset" #defaul value
     always_merger.merge(attributes, {"types": {"resourceTypeGeneral": new_type}})
 
     #url

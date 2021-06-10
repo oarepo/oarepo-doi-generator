@@ -1,4 +1,8 @@
+from invenio_base.signals import app_loaded
+
 from . import config
+
+# from oarepo_actions.ext import test
 
 
 class SampleExt(object):
@@ -8,6 +12,8 @@ class SampleExt(object):
 
     def init_app(self, app):
         self.init_config(app)
+
+    #      app_loaded.connect(test)
 
     def init_config(self, app):
         for k in dir(config):

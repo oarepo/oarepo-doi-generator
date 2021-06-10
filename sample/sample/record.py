@@ -1,48 +1,36 @@
-import datetime
+import uuid
 
-from flask import url_for
+from flask import make_response
+from invenio_access.permissions import Permission, any_user, authenticated_user
+from invenio_indexer.api import RecordIndexer
+from invenio_pidstore.providers.recordid import RecordIdProvider
 from invenio_records.api import Record
-from oarepo_actions.decorators import action
-from oarepo_communities.converters import CommunityPIDValue
-from oarepo_communities.proxies import current_oarepo_communities
+from invenio_records_rest.utils import allow_all
 from oarepo_communities.record import CommunityRecordMixin
 from oarepo_fsm.mixins import FSMMixin
-from oarepo_records_draft.record import DraftRecordMixin
 from oarepo_validate import MarshmallowValidatedRecordMixin, SchemaKeepingRecordMixin
+
+from oarepo_actions.decorators import action
 
 from .constants import SAMPLE_ALLOWED_SCHEMAS, SAMPLE_PREFERRED_SCHEMA
 from .marshmallow import SampleSchemaV1
 
 
+
 class SampleRecord(SchemaKeepingRecordMixin,
                    MarshmallowValidatedRecordMixin,
-                   CommunityRecordMixin,FSMMixin,
+                   CommunityRecordMixin, FSMMixin,
                    Record):
     ALLOWED_SCHEMAS = SAMPLE_ALLOWED_SCHEMAS
     PREFERRED_SCHEMA = SAMPLE_PREFERRED_SCHEMA
     MARSHMALLOW_SCHEMA = SampleSchemaV1
-    index_name = 'sample'
 
     @property
     def canonical_url(self):
-        return url_for(f'invenio_records_rest.recid_item',
-                       pid_value=CommunityPIDValue(
-                           self['id'],
-                           current_oarepo_communities.get_primary_community_field(self)
-                       ), _external=True)
-
-class SampleDraftRecord(DraftRecordMixin, SampleRecord):
-    @property
-    def canonical_url(self):
-        return url_for(f'invenio_records_rest.drecid_item',
-                       pid_value=CommunityPIDValue(
-                           self['id'],
-                           current_oarepo_communities.get_primary_community_field(self)
-                       ), _external=True)
-
-    def validate(self, *args, **kwargs):
-        if 'created' not in self:
-            self['created'] = datetime.date.today().strftime('%Y-%m-%d')
-
-        self['modified'] = datetime.date.today().strftime('%Y-%m-%d')
-        return super().validate(*args, **kwargs)
+        return self.canonical_url('https://127.0.0.1:5000/cesnet/datasets/dat-7w607-k0s56')
+    @canonical_url.setter
+    def canonical_url(self, value):
+        self.canonical_url = value
+    _schema = "sample/sample-v1.0.0.json"
+    def validate(self, **kwargs):
+        return super().validate(**kwargs)

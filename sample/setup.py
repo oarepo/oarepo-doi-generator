@@ -26,7 +26,7 @@ setup(
             'sample = sample.jsonschemas'
         ],
         'invenio_search.mappings': [
-            'sample = sample.mappings',
+            'sample = sample.mappings'
         ],
         'invenio_base.api_apps': [
             'sample = sample.ext:SampleExt',
@@ -35,13 +35,7 @@ setup(
         'invenio_base.apps': [
             'sample = sample.ext:SampleExt',
             'oarepo_actions = oarepo_actions:Actions'
-        ]
-        # 'invenio_pidstore.fetchers': [
-        #     'recid = sample.fetchers:sample_pid_fetcher'
-        # ],
-        # 'invenio_pidstore.minters': [
-        #     'recid = sample.minters:sample_pid_minter'
-        # ]
+        ],
     },
     classifiers=[
         'Environment :: Web Environment',
