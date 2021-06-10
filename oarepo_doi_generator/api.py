@@ -9,8 +9,12 @@ from jsonref import requests
 from .json_schema_mapping import schema_mapping
 
 def doi_already_requested(record):
-    identifiers_array = record["identifiers"]
     doi_requested = False
+
+    if "identifiers" not in record:
+        return doi_requested
+    identifiers_array = record["identifiers"]
+
 
     for id in identifiers_array:
         if "status" in id and "doi" in id["scheme"] and "requested" in id["status"]:
@@ -23,17 +27,24 @@ def doi_request(record):
 
     #if doi was not already requested
     if not doi_already_requested(record):
-        record['identifiers'].append(
-            {
+        if "identifiers" not in record:
+            record['identifiers'] = [{
                 "identifier": "",
                 "scheme": "doi",
                 "status": "requested"
-            }
-        )
+            }]
+        else:
+            record['identifiers'].append(
+                {
+                    "identifier": "",
+                    "scheme": "doi",
+                    "status": "requested"
+                }
+            )
 
     record.commit()
     db.session.commit()
-
+    return record
 def doi_approved(record, pid_type, test_mode = False):
 
     if doi_already_requested(record):
@@ -60,7 +71,7 @@ def doi_approved(record, pid_type, test_mode = False):
                                     status=PIDStatus.REGISTERED)
 
             db.session.commit()
-            db.session.commit()
+
 
 def doi_registration(data, test_mode = False):
     username = current_app.config.get("DOI_DATACITE_USERNAME")

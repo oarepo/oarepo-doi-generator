@@ -18,14 +18,14 @@ RECORDS_REST_ENDPOINTS = {
             'application/json': 'oarepo_validate:json_response',
         },
         search_serializers={
-            # 'application/json': 'oarepo_validate:json_search',
+             'application/json': 'oarepo_validate:json_search',
         },
         record_loaders={
             'application/json': 'oarepo_validate:json_loader',
         },
         record_class='sample.record:SampleRecord',
-        list_route='/cesnet/records/',
-        item_route='/cesnet/records/<{0}:pid_value>'.format(RECORD_PID),
+        list_route='/records/',
+        item_route='/records/<{0}:pid_value>'.format(RECORD_PID),
         default_media_type='application/json',
         max_result_window=10000,
         error_handlers=dict(),

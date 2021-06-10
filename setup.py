@@ -18,6 +18,9 @@ install_requires = [
 
 tests_require = [
     'coverage',
+    'oarepo-actions',
+    'marshmallow-utils',
+    'responses'
 
 ]
 

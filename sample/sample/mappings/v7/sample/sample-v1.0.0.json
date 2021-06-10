@@ -6,6 +6,9 @@
       "title": {
         "type": "text"
       },
+      "document_type": {
+        "type": "text"
+      },
       "publication_year": {
         "title": {
           "type": "text"

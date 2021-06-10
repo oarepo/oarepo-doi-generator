@@ -1,7 +1,20 @@
-from marshmallow import fields, validate, Schema
+from marshmallow import fields, validate, Schema, EXCLUDE
 from marshmallow_utils.fields import SanitizedUnicode
 from oarepo_invenio_model.marshmallow import InvenioRecordMetadataSchemaV1Mixin
 from marshmallow.fields import List
+class IdentifierSchema(Schema):
+    """Identifier schema."""
+
+    class Meta:
+        """Meta attributes for the schema."""
+
+        unknown = EXCLUDE
+
+    material = fields.Str()
+    scheme = fields.Str()
+    value = fields.Str()
+    status = fields.Str()
+
 class PersonOrOrganizationSchema(Schema):
     """Person or Organization schema."""
 
@@ -15,4 +28,7 @@ class SampleSchemaV1(InvenioRecordMetadataSchemaV1Mixin):
     title = fields.String(validate=validate.Length(min=2), required=True)
     creators = List(fields.Nested(ContributorSchema))
     publication_year = fields.String()
-    kc = fields.String(validate=validate.Length(min=5), required=True)
+    document_type = fields.String()
+    _primary_community = fields.String()
+    identifiers = fields.List(fields.Nested(IdentifierSchema))
+

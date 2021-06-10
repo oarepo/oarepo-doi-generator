@@ -27,10 +27,8 @@ class SampleRecord(SchemaKeepingRecordMixin,
 
     @property
     def canonical_url(self):
-        return self.canonical_url('https://127.0.0.1:5000/cesnet/datasets/dat-7w607-k0s56')
-    @canonical_url.setter
-    def canonical_url(self, value):
-        self.canonical_url = value
+        return 'https://127.0.0.1:5000/cesnet/datasets/dat-7w607-k0s56'
+
     _schema = "sample/sample-v1.0.0.json"
     def validate(self, **kwargs):
         return super().validate(**kwargs)

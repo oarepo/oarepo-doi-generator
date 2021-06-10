@@ -6,6 +6,26 @@
         "title": {
           "type": "string"
         },
+        "identifiers": {
+          "description": "Conference identifiers",
+          "items": {
+            "scheme": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "minLength": 1,
+          "required": [
+            "scheme",
+            "value"
+          ],
+          "type": "array"
+        },
+        "document_type": {
+          "type": "string"
+        },
             "creators": {
               "description": "Authors of the resource.",
               "type": "array",
