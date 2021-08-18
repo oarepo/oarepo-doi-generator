@@ -5,8 +5,8 @@ from invenio_db import db
 from invenio_pidstore.models import PersistentIdentifier, PIDStatus
 from jsonref import requests
 
-
 from .json_schema_mapping import schema_mapping
+
 
 def doi_already_requested(record):
     doi_requested = False
@@ -45,6 +45,7 @@ def doi_request(record):
     record.commit()
     db.session.commit()
     return record
+
 def doi_approved(record, pid_type, test_mode = False):
 
     if doi_already_requested(record):

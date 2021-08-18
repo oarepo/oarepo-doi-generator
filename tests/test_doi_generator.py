@@ -1,7 +1,7 @@
 import responses
-from sample.record import SampleRecord
 
 from oarepo_doi_generator.api import doi_approved, doi_request
+from sample.record import SampleRecord
 
 
 def test_doi_request(app, db):

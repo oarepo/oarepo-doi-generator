@@ -1,7 +1,9 @@
-from marshmallow import fields, validate, Schema, EXCLUDE
+from marshmallow import EXCLUDE, Schema, fields, validate
+from marshmallow.fields import List
 from marshmallow_utils.fields import SanitizedUnicode
 from oarepo_invenio_model.marshmallow import InvenioRecordMetadataSchemaV1Mixin
-from marshmallow.fields import List
+
+
 class IdentifierSchema(Schema):
     """Identifier schema."""
 

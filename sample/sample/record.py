@@ -6,15 +6,13 @@ from invenio_indexer.api import RecordIndexer
 from invenio_pidstore.providers.recordid import RecordIdProvider
 from invenio_records.api import Record
 from invenio_records_rest.utils import allow_all
+from oarepo_actions.decorators import action
 from oarepo_communities.record import CommunityRecordMixin
 from oarepo_fsm.mixins import FSMMixin
 from oarepo_validate import MarshmallowValidatedRecordMixin, SchemaKeepingRecordMixin
 
-from oarepo_actions.decorators import action
-
 from .constants import SAMPLE_ALLOWED_SCHEMAS, SAMPLE_PREFERRED_SCHEMA
 from .marshmallow import SampleSchemaV1
-
 
 
 class SampleRecord(SchemaKeepingRecordMixin,

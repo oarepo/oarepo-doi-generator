@@ -26,14 +26,15 @@ from invenio_records_rest.views import create_blueprint_from_app, need_record_pe
 from invenio_rest import InvenioREST
 from invenio_search import InvenioSearch
 from invenio_search.cli import destroy, init
+from oarepo_communities.ext import OARepoCommunities
 from oarepo_mapping_includes.ext import OARepoMappingIncludesExt
 from oarepo_validate.ext import OARepoValidate
 from sqlalchemy_utils import create_database, database_exists
 
 from oarepo_doi_generator.ext import OARepoDOIGenerator
 from sample.ext import SampleExt
-from oarepo_communities.ext import OARepoCommunities
 from sample.record import SampleRecord
+
 
 def set_identity(u):
     """Sets identity in flask.g to the user."""

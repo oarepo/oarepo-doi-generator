@@ -3,6 +3,7 @@
 from oarepo_doi_generator.json_schema_mapping import schema_mapping
 from sample.record import SampleRecord
 
+
 def test_response(app, db):
     record = SampleRecord.create({ "id": "1234","title": "Fir", "_primary_community": "cesnet"})
 
