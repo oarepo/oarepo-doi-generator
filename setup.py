@@ -10,6 +10,7 @@ OAREPO_VERSION = os.environ.get('OAREPO_VERSION', '3.3.40')
 
 
 install_requires = [
+    'deepmerge'
 
 ]
 
@@ -17,7 +18,8 @@ tests_require = [
     'marshmallow-utils',
     'responses',
     'oarepo_validate',
-    'oarepo_communities'
+    'oarepo_communities',
+    'deepmerge'
 ]
 
 extras_require = {
