@@ -19,7 +19,8 @@ tests_require = [
     'responses',
     'oarepo_validate',
     'oarepo_communities',
-    'deepmerge'
+    'deepmerge',
+    'oarepo-invenio-model'
 ]
 
 extras_require = {
