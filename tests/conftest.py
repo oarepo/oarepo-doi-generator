@@ -68,12 +68,14 @@ def base_app():
         SECRET_KEY='TEST_SECRET_KEY',
         INVENIO_INSTANCE_PATH=instance_path,
         SEARCH_INDEX_PREFIX='test-',
+        OAREPO_COMMUNITIES_PRIMARY_COMMUNITY_FIELD ="cesnet",
         JSONSCHEMAS_HOST='localhost:5000',
         SEARCH_ELASTIC_HOSTS=os.environ.get('SEARCH_ELASTIC_HOSTS', None),
         PIDSTORE_RECID_FIELD='id',
         FILES_REST_PERMISSION_FACTORY = allow_all,
         DOI_DATACITE_TEST_URL = 'https://repozitar-test.cesnet.cz/',
-        DOI_DATACITE_PREFIX = '12345'
+        DOI_DATACITE_PREFIX = '12345',
+        OAREPO_COMMUNITIES_ENDPOINTS=['recid']
 
     )
 

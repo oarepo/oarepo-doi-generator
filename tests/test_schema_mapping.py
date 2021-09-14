@@ -5,7 +5,7 @@ from sample.record import SampleRecord
 
 
 def test_response(app, db):
-    record = SampleRecord.create({ "id": "1234","title": "Fir", "_primary_community": "cesnet"})
+    record = SampleRecord.create({ "id": "1234","title": "Fir", "_primary_community": "cesnet", "InvenioID": "1234"})
 
     with app.app_context():
         data = schema_mapping(record=record, pid_type="drecid", test_mode=True)
@@ -24,7 +24,7 @@ def test_response(app, db):
         }
     }
 
-    record = SampleRecord.create({"id": "1234", "_primary_community": "cesnet","publication_year": "1970","title": "First title", "creators": [
+    record = SampleRecord.create({"id": "1234", "InvenioID": "1234", "_primary_community": "cesnet","publication_year": "1970","title": "First title", "creators": [
     {
       "person_or_org": {
         "name": "Alzp Pokorna"
@@ -54,7 +54,7 @@ def test_response(app, db):
           'type': 'drecid'}}
 
     record = SampleRecord.create(
-        {"id": "1234", "_primary_community": "cesnet", "document_type": "book", "publication_year": "1970", "title": "First title", "creators": [
+        {"id": "1234", "InvenioID": "1234", "_primary_community": "cesnet", "document_type": "book", "publication_year": "1970", "title": "First title", "creators": [
             {
                 "person_or_org": {
                     "name": "Alzp Pokorna"

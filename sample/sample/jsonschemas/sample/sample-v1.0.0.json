@@ -52,8 +52,8 @@
       }
     },
     {
-      "$ref": "/schemas/invenio-v1.0.0.json#/definitions/InvenioRecord"
+      "$ref": "/schemas/invenio-v3.0.0.json#/definitions/InvenioRecord"
     }
   ],
-  "additionalProperties": "false"
+  "additionalProperties": "true"
 }

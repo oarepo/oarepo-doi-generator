@@ -33,4 +33,6 @@ class SampleSchemaV1(InvenioRecordMetadataSchemaV1Mixin):
     document_type = fields.String()
     _primary_community = fields.String()
     identifiers = fields.List(fields.Nested(IdentifierSchema))
+    InvenioID = fields.String()
+    id = fields.String()
 

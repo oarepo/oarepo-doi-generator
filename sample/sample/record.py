@@ -17,7 +17,7 @@ from .marshmallow import SampleSchemaV1
 
 class SampleRecord(SchemaKeepingRecordMixin,
                    MarshmallowValidatedRecordMixin,
-                   CommunityRecordMixin, FSMMixin,
+                   #CommunityRecordMixin, FSMMixin,
                    Record):
     ALLOWED_SCHEMAS = SAMPLE_ALLOWED_SCHEMAS
     PREFERRED_SCHEMA = SAMPLE_PREFERRED_SCHEMA
