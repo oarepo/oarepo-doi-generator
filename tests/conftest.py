@@ -7,12 +7,11 @@ import sys
 import flask
 import invenio_records_rest
 import pytest
-from flask import Flask, current_app, make_response, url_for
-from flask_login import LoginManager, login_user
+from flask import Flask, current_app
+from flask_login import LoginManager
 from flask_principal import Identity, Principal, identity_changed
 from invenio_access import InvenioAccess, authenticated_user
 from invenio_access.permissions import Permission
-from invenio_accounts.models import Role, User
 from invenio_base.signals import app_loaded
 from invenio_db import InvenioDB
 from invenio_db import db as _db
@@ -22,18 +21,15 @@ from invenio_pidstore import InvenioPIDStore
 from invenio_records import InvenioRecords
 from invenio_records_rest import InvenioRecordsREST
 from invenio_records_rest.utils import PIDConverter, allow_all
-from invenio_records_rest.views import create_blueprint_from_app, need_record_permission
+from invenio_records_rest.views import create_blueprint_from_app
 from invenio_rest import InvenioREST
 from invenio_search import InvenioSearch
-from invenio_search.cli import destroy, init
 from oarepo_communities.ext import OARepoCommunities
-from oarepo_mapping_includes.ext import OARepoMappingIncludesExt
 from oarepo_validate.ext import OARepoValidate
 from sqlalchemy_utils import create_database, database_exists
 
 from oarepo_doi_generator.ext import OARepoDOIGenerator
 from sample.ext import SampleExt
-from sample.record import SampleRecord
 
 
 def set_identity(u):
@@ -99,7 +95,6 @@ def app(base_app):
     InvenioPIDStore(base_app)
     base_app.url_map.converters['pid'] = PIDConverter
     SampleExt(base_app)
-    OARepoMappingIncludesExt(base_app)
     LoginManager(base_app)
     Permission(base_app)
     InvenioAccess(base_app)

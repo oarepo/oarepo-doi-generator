@@ -14,15 +14,10 @@ install_requires = [
 ]
 
 tests_require = [
-    'coverage',
-    'oarepo-actions',
     'marshmallow-utils',
     'responses',
-    'oarepo-invenio-model',
-    'oarepo_mapping_includes',
     'oarepo_validate',
     'oarepo_communities'
-
 ]
 
 extras_require = {
