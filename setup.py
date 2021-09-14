@@ -6,7 +6,7 @@ from setuptools import setup
 
 readme = open('README.md').read()
 history = open('CHANGES.md').read()
-OAREPO_VERSION = os.environ.get('OAREPO_VERSION', '3.3.0')
+OAREPO_VERSION = os.environ.get('OAREPO_VERSION', '3.3.40')
 
 
 install_requires = [
