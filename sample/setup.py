@@ -30,11 +30,9 @@ setup(
         ],
         'invenio_base.api_apps': [
             'sample = sample.ext:SampleExt',
-            'oarepo_actions = oarepo_actions:Actions'
         ],
         'invenio_base.apps': [
             'sample = sample.ext:SampleExt',
-            'oarepo_actions = oarepo_actions:Actions'
         ],
     },
     classifiers=[
