@@ -14,7 +14,7 @@ class IdentifierSchema(Schema):
 
     material = fields.Str()
     scheme = fields.Str()
-    value = fields.Str()
+    identifier = fields.Str()
     status = fields.Str()
 
 class PersonOrOrganizationSchema(Schema):
@@ -32,7 +32,7 @@ class SampleSchemaV1(InvenioRecordMetadataSchemaV1Mixin):
     publication_year = fields.String()
     document_type = fields.String()
     _primary_community = fields.String()
-    identifiers = fields.List(fields.Nested(IdentifierSchema))
+    persistentIdentifiers = fields.List(fields.Nested(IdentifierSchema))
     InvenioID = fields.String()
     id = fields.String()
 

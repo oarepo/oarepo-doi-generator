@@ -6,13 +6,13 @@
         "title": {
           "type": "string"
         },
-        "identifiers": {
+        "persistentIdentifiers": {
           "description": "Conference identifiers",
           "items": {
             "scheme": {
               "type": "string"
             },
-            "value": {
+            "identifier": {
               "type": "string"
             }
           },
