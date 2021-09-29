@@ -57,5 +57,5 @@ def test_doi_registration(app, db):
         resp = doi_approved(record=record, pid_type="neco", test_mode=True)
         assert resp == {'id': '1234', "InvenioID": "1234", 'title': 'Fir', '_primary_community': 'cesnet', 'persistentIdentifiers': [{'identifier': '10.23644/ydc3-1692',
                             'scheme': 'DOI',
-                            'statuse': 'registered'}], '$schema': 'https://localhost:5000/schemas/sample/sample-v1.0.0.json'}
+                            'status': 'registered'}], '$schema': 'https://localhost:5000/schemas/sample/sample-v1.0.0.json'}
 
