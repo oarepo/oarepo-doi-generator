@@ -62,7 +62,7 @@ def doi_approved(record, pid_type, test_mode = False):
                 {
                     "identifier": doi,
                     "scheme": "DOI",
-                    "statuse": "registered"
+                    "status": "registered"
                 }
             )
             record.commit()

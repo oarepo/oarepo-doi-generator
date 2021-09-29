@@ -52,13 +52,6 @@ setup(
     zip_safe=False,
     packages=['oarepo_doi_generator'],
     entry_points={
-
-        #'invenio_search.mappings': [
-        #    'documents= oarepo_doi_generator.mappings',
-        #],
-        # 'invenio_search.mappings': [
-        #     'test_mapping = test_mapping.mappings'
-        # ],
         'invenio_jsonschemas.schemas': [
             'oarepo_doi_generator = oarepo_doi_generator.jsonschemas',
         ],
