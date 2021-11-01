@@ -4,42 +4,15 @@ from flask import current_app
 from invenio_db import db
 from invenio_pidstore.models import PersistentIdentifier, PIDStatus
 from jsonref import requests
-
+from flask_login import current_user
 from .new_datasets_mapping import schema_mapping
+import datetime
 
-def doi_already_requested(record):
-    doi_requested = False
-
-    if "persistentIdentifiers" not in record:
-        return doi_requested
-    identifiers_array = record["persistentIdentifiers"]
-
-
-    for id in identifiers_array:
-        if "DOI" in id["scheme"] and "requested" in id["status"]:
-            doi_requested = True
-            break
-
-    return doi_requested
-
-def doi_request(record):
-
-    #if doi was not already requested
-    if not doi_already_requested(record):
-        if "persistentIdentifiers" not in record:
-            record['persistentIdentifiers'] = [{
-                "identifier": "",
-                "scheme": "DOI",
-                "status": "requested"
-            }]
-        else:
-            record['persistentIdentifiers'].append(
-                {
-                    "identifier": "",
-                    "scheme": "DOI",
-                    "status": "requested"
-                }
-            )
+def doi_request(record, publisher):
+    date = datetime.datetime.now()
+    date = str(date)
+    if "oarepo:doirequest" not in record:
+        record['oarepo:doirequest'] = {"publisher": publisher, "requestedBy": current_user.id, "requestedDate": date}
 
     record.commit()
     db.session.commit()
@@ -47,31 +20,30 @@ def doi_request(record):
 
 def doi_approved(record, pid_type, test_mode = False):
 
-    if doi_already_requested(record):
-        record['persistentIdentifiers'].remove(
-            {
-                "identifier": "",
-                "scheme": "DOI",
-                "status": "requested"
-            }
-        )
-        data = schema_mapping(record, pid_type, test_mode=test_mode)
-        doi = doi_registration(data=data, test_mode=test_mode)
-        if doi != None:
+    if "oarepo:doirequest" in record:
+        publisher = record["oarepo:doirequest"]["publisher"]
+        data = schema_mapping(record, pid_type, publisher, test_mode=test_mode)
+        doi_registration(data=data, test_mode=test_mode)
+        doi = data['data']['attributes']['doi']
+        if "persistentIdentifiers" not in record:
+            record['persistentIdentifiers'] = [{
+                    "identifier": doi,
+                    "scheme": "DOI",
+                    "status": "registered"
+                }]
+        else:
             record['persistentIdentifiers'].append(
                 {
                     "identifier": doi,
                     "scheme": "DOI",
                     "status": "registered"
                 }
-            )
-            record.commit()
-
-            PersistentIdentifier.create('DOI', doi, object_type='rec',
+                )
+        record.pop("oarepo:doirequest")
+        PersistentIdentifier.create('DOI', doi, object_type='rec',
                                     object_uuid=record.id,
                                     status=PIDStatus.REGISTERED)
 
-            db.session.commit()
 
     return record
 
@@ -87,14 +59,9 @@ def doi_registration(data, test_mode = False):
 
 
     request = requests.post(url=url, json=data, headers = {'Content-type': 'application/vnd.api+json'}, auth=(username, password))
-    doi = ''
-    if request.status_code == 201:
-        response = json.loads(request.text)
-        doi = response['data']['id']
-    else:
-        print(request.status_code)
+    if request.status_code != 201:
+        raise requests.ConnectionError("Expected status code 201, but got {}".format(request.status_code))
 
-    return doi
 
 
 
