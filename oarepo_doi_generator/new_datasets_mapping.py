@@ -93,7 +93,6 @@ def schema_mapping(record, pid_type, publisher, test_mode=False):
 
     always_merger.merge(id_data, attributes)
     data = {"data": id_data}
-    print(data)
 
     return data
 
