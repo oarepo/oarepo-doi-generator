@@ -17,7 +17,7 @@ def generate_doi(prefix, pid_type, pid_value):
     return prefix + '/' + pid_type + '.' + pid_value
 
 
-def schema_mapping(record, pid_type, publisher, test_mode=False):
+def schema_mapping(record, pid_type, publisher):
     prefix = current_app.config.get("DOI_DATACITE_PREFIX")
     new_doi = generate_doi(prefix, pid_type, record['InvenioID'])
     url = record.canonical_url
@@ -77,7 +77,7 @@ def schema_mapping(record, pid_type, publisher, test_mode=False):
     always_merger.merge(attributes, {"types": {"resourceTypeGeneral": document_type}})
 
     # url
-    if test_mode:
+    if current_app.config.get("DOI_TEST_MODE"):
         always_merger.merge(attributes, {"url": test_url})
     else:
         always_merger.merge(attributes, {"url": record.canonical_url})

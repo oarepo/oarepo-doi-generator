@@ -21,11 +21,11 @@ def doi_request(record, publisher):
     return record
 
 
-def doi_approved(record, pid_type, test_mode=False):
+def doi_approved(record, pid_type):
     if "oarepo:doirequest" in record:
         publisher = record["oarepo:doirequest"]["publisher"]
-        data = schema_mapping(record, pid_type, publisher, test_mode=test_mode)
-        doi_registration(data=data, test_mode=test_mode)
+        data = schema_mapping(record, pid_type, publisher)
+        doi_registration(data=data)
         doi = data['data']['attributes']['doi']
         if "persistentIdentifiers" not in record:
             record['persistentIdentifiers'] = [{
@@ -49,11 +49,11 @@ def doi_approved(record, pid_type, test_mode=False):
     return record
 
 
-def doi_registration(data, test_mode=False):
+def doi_registration(data):
     username = current_app.config.get("DOI_DATACITE_USERNAME")
     password = current_app.config.get("DOI_DATACITE_PASSWORD")
 
-    if test_mode:
+    if current_app.config.get("DOI_TEST_MODE"):
         url = 'https://api.test.datacite.org/dois'
     else:
         url = 'https://api.datacite.org/dois'

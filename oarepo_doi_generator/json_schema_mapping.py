@@ -12,7 +12,7 @@ def try_name(nlist, record, default=None):
         return default
 
 
-def schema_mapping(record, pid_type, test_mode=False):
+def schema_mapping(record, pid_type):
     prefix = current_app.config.get("DOI_DATACITE_PREFIX")
     url = record.canonical_url
     for_test_array = url.split('/')
@@ -73,7 +73,7 @@ def schema_mapping(record, pid_type, test_mode=False):
     always_merger.merge(attributes, {"types": {"resourceTypeGeneral": new_type}})
 
     # url
-    if test_mode:
+    if current_app.config.get("DOI_TEST_MODE"):
         always_merger.merge(attributes, {"url": test_url})
     else:
         always_merger.merge(attributes, {"url": record.canonical_url})

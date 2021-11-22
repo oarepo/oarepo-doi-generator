@@ -19,7 +19,7 @@ Functions
 ---------
 ###### doi_request(record)
  Creates a new identifier in record metadata with empty ```value```, ```scheme``` as ```doi``` and with ```status``` set as ```requested```.
-###### doi_approved(record, pid_type, test_mode = False)
+###### doi_approved(record, pid_type)
  For DOI registration. A new DOI is registered on DataCite and attached to record metadata as a new identifier.
 If test_mode sets on True, the registration is performed only on DataCite testing server.
 
@@ -32,6 +32,8 @@ Configuration
  Password for DataCite
 ###### DOI_DATACITE_PREFIX
  Registered DOI prefix
+###### DOI_TEST_MODE
+ If true, dois will be generated only on test server
 
 
 #### optional:

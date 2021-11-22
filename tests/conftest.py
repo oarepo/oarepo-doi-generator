@@ -71,7 +71,8 @@ def base_app():
         FILES_REST_PERMISSION_FACTORY = allow_all,
         DOI_DATACITE_TEST_URL = 'https://repozitar-test.cesnet.cz/',
         DOI_DATACITE_PREFIX = '12345',
-        OAREPO_COMMUNITIES_ENDPOINTS=['recid']
+        OAREPO_COMMUNITIES_ENDPOINTS=['recid'],
+        DOI_TEST_MODE = True
 
     )
 

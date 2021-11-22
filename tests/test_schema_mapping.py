@@ -8,7 +8,7 @@ def test_response(app, db):
     record = SampleRecord.create({ "id": "1234","title": "Fir", "_primary_community": "cesnet", "InvenioID": "1234"})
 
     with app.app_context():
-        data = schema_mapping(record=record, pid_type="drecid", test_mode=True)
+        data = schema_mapping(record=record, pid_type="drecid")
 
     assert data == {
         'data': {
@@ -38,7 +38,7 @@ def test_response(app, db):
   ],})
 
     with app.app_context():
-        data = schema_mapping(record=record, pid_type="drecid", test_mode=True)
+        data = schema_mapping(record=record, pid_type="drecid")
 
     assert data == {'data': {'attributes': {'creators': [{'name': 'Alzp Pokorna'},
                                       {'name': 'Kch kch'}],
@@ -68,7 +68,7 @@ def test_response(app, db):
         ], })
 
     with app.app_context():
-        data = schema_mapping(record=record, pid_type="drecid", test_mode=True)
+        data = schema_mapping(record=record, pid_type="drecid")
 
     assert data == {'data': {'attributes': {'creators': [{'name': 'Alzp Pokorna'},
                                                          {'name': 'Kch kch'}],
@@ -85,7 +85,7 @@ def test_response(app, db):
     app.config.update(DOI_DATACITE_PUBLISHER = "Alzp")
 
     with app.app_context():
-        data = schema_mapping(record=record, pid_type="drecid", test_mode=True)
+        data = schema_mapping(record=record, pid_type="drecid")
 
     assert data == {'data': {'attributes': {'creators': [{'name': 'Alzp Pokorna'},
                                                          {'name': 'Kch kch'}],
