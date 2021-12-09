@@ -8,6 +8,12 @@ from jsonref import requests
 
 from .new_datasets_mapping import schema_mapping
 
+def doi_already_registered(record):
+    if "persistentIdentifiers" in record:
+        for i in record['persistentIdentifiers']:
+            if i['scheme'] == "doi" and i['status'] == "registered":
+                return True
+    return False
 
 def doi_request(record, publisher):
     requested_date = datetime.datetime.today()
@@ -22,7 +28,7 @@ def doi_request(record, publisher):
 
 
 def doi_approved(record, pid_type):
-    if "oarepo:doirequest" in record:
+    if "oarepo:doirequest" in record and not doi_already_registered(record):
         publisher = record["oarepo:doirequest"]["publisher"]
         data = schema_mapping(record, pid_type, publisher)
         doi_registration(data=data)
